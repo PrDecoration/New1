@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option java_package = "com.checkmarx.sast.policy.grpc.deletePolicies";
+option java_multiple_files = true;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service PolicyEngine {
+  rpc deletePolicyById(DeletePolicyRequest) returns (google.protobuf.Empty);
+  rpc getEngineEvaluation(GetEngineEvaluationRequest) returns (GetEngineEvaluationResponse);
+}
+
+message DeletePolicyRequest {
+  int64 policyId = 1;
+}
+
+message GetEngineEvaluationRequest {
+  int64 policyId = 1;
+  string scanId = 2;
+  string branch = 3;
+}
+
+message GetEngineEvaluationResponse {
+  repeated RuleEvaluationStatus rulesEvaluationStatus = 1;
+}
+
+message RuleEvaluationStatus {
+  string ruleName = 1;
+  string ruleStatus = 2;
+  repeated ResultStatus results = 3;
+}
+
+message ResultStatus {
+  string name = 1;
+  string severity = 2;
+  string issue = 3;
+  string fileName = 4;
+  int64 line = 5;
+  int64 similarityID = 6;
+}
